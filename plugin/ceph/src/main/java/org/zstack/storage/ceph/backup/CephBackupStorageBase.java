@@ -801,6 +801,8 @@ public class CephBackupStorageBase extends BackupStorageBase {
     protected void handleApiMessage(APIMessage msg) {
         if (msg instanceof APIAddMonToCephBackupStorageMsg) {
             handle((APIAddMonToCephBackupStorageMsg) msg);
+        } else if (msg instanceof APIUpdateMonToCephBackupStorageMsg) {
+            handle((APIUpdateMonToCephBackupStorageMsg) msg);
         } else if (msg instanceof APIRemoveMonFromCephBackupStorageMsg) {
             handle((APIRemoveMonFromCephBackupStorageMsg) msg);
         } else {
@@ -979,6 +981,28 @@ public class CephBackupStorageBase extends BackupStorageBase {
                 });
             }
         }).start();
+    }
+
+    private void handle(final APIUpdateMonToCephBackupStorageMsg msg) {
+        CephBackupStorageMonVO monvo = new CephBackupStorageMonVO();
+        if (msg.getHostname() != null) {
+            monvo.setHostname(msg.getHostname());
+        }
+        if (msg.getMonPort() != null && msg.getMonPort() > 0 && msg.getMonPort() <= 65535) {
+            monvo.setMonPort(msg.getMonPort());
+        }
+        if (msg.getSshPort() != null && msg.getSshPort() > 0 && msg.getSshPort() <= 65535) {
+            monvo.setSshPort(msg.getSshPort());
+        }
+        if (msg.getHostname() != null) {
+            monvo.setSshUsername(msg.getSshUsername());
+        }
+        if (msg.getHostname() != null) {
+            monvo.setSshPassword(msg.getSshPassword());
+        }
+        if (msg.getHostname() != null) {
+            monvo.setBackupStorageUuid(self.getUuid());
+        }
     }
 
     @Override
