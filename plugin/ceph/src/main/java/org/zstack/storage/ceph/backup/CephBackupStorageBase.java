@@ -995,14 +995,11 @@ public class CephBackupStorageBase extends BackupStorageBase {
         if (msg.getSshPort() != null && msg.getSshPort() > 0 && msg.getSshPort() <= 65535) {
             monvo.setSshPort(msg.getSshPort());
         }
-        if (msg.getHostname() != null) {
+        if (msg.getSshUsername() != null) {
             monvo.setSshUsername(msg.getSshUsername());
         }
-        if (msg.getHostname() != null) {
+        if (msg.getSshPassword() != null) {
             monvo.setSshPassword(msg.getSshPassword());
-        }
-        if (msg.getHostname() != null) {
-            monvo.setBackupStorageUuid(self.getUuid());
         }
         dbf.update(monvo);
         evt.setInventory(CephBackupStorageInventory.valueOf(dbf.reload(getSelf())));
