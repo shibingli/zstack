@@ -2032,7 +2032,7 @@ public class CephPrimaryStorageBase extends PrimaryStorageBase {
 
     private void handle(APIUpdateMonToCephPrimaryStorageMsg msg) {
         final APIUpdateMonToCephPrimaryStorageEvent evt = new APIUpdateMonToCephPrimaryStorageEvent(msg.getId());
-        CephPrimaryStorageMonVO monvo = dbf.findByUuid(msg.getMonUuid(), CephPrimaryStorageMonVO.class);
+        CephPrimaryStorageMonVO monvo = dbf.findByUuid(msg.getUuid(), CephPrimaryStorageMonVO.class);
         if (msg.getHostname() != null) {
             monvo.setHostname(msg.getHostname());
         }

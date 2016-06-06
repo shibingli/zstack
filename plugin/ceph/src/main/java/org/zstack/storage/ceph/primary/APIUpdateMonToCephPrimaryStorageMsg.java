@@ -14,7 +14,7 @@ public class APIUpdateMonToCephPrimaryStorageMsg extends APIMessage implements P
     private String primaryStorageUuid;
 
     @APIParam(resourceType = CephPrimaryStorageMonVO.class, emptyString = false)
-    private String monUuid;
+    private String uuid;
 
     @APIParam(maxLength = 255, required = false)
     private String hostname;
@@ -41,13 +41,6 @@ public class APIUpdateMonToCephPrimaryStorageMsg extends APIMessage implements P
         this.primaryStorageUuid = primaryStorageUuid;
     }
 
-    public String getMonUuid() {
-        return monUuid;
-    }
-
-    public void setMonUuid(String monUuid) {
-        this.monUuid = monUuid;
-    }
 
     public String getHostname() {
         return hostname;
@@ -87,5 +80,13 @@ public class APIUpdateMonToCephPrimaryStorageMsg extends APIMessage implements P
 
     public void setMonPort(Integer monPort) {
         this.monPort = monPort;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
