@@ -1004,7 +1004,7 @@ public class CephBackupStorageBase extends BackupStorageBase {
         if (msg.getHostname() != null) {
             monvo.setBackupStorageUuid(self.getUuid());
         }
-        dbf.persist(monvo);
+        dbf.update(monvo);
         evt.setInventory(CephBackupStorageInventory.valueOf(dbf.reload(getSelf())));
         bus.publish(evt);
     }
