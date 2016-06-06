@@ -38,6 +38,11 @@
     </message>
 
     <message>
+        <name>org.zstack.storage.ceph.primary.APIUpdateMonToCephPrimaryStorageMsg</name>
+        <serviceId>storage.primary</serviceId>
+    </message>
+
+    <message>
         <name>org.zstack.storage.ceph.primary.APIRemoveMonFromCephPrimaryStorageMsg</name>
         <serviceId>storage.primary</serviceId>
     </message>

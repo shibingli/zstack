@@ -11,10 +11,7 @@ import org.zstack.header.errorcode.OperationFailureException;
 import org.zstack.header.exception.CloudRuntimeException;
 import org.zstack.header.message.APIMessage;
 import org.zstack.storage.ceph.backup.*;
-import org.zstack.storage.ceph.primary.APIAddCephPrimaryStorageMsg;
-import org.zstack.storage.ceph.primary.APIAddMonToCephPrimaryStorageMsg;
-import org.zstack.storage.ceph.primary.CephPrimaryStorageMonVO;
-import org.zstack.storage.ceph.primary.CephPrimaryStorageMonVO_;
+import org.zstack.storage.ceph.primary.*;
 import org.zstack.utils.CollectionUtils;
 import org.zstack.utils.Utils;
 import org.zstack.utils.function.Function;
@@ -50,6 +47,8 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
             validate((APIUpdateMonToCephBackupStorageMsg) msg);
         } else if (msg instanceof APIAddMonToCephPrimaryStorageMsg) {
             validate((APIAddMonToCephPrimaryStorageMsg) msg);
+        } else if (msg instanceof APIUpdateMonToCephPrimaryStorageMsg) {
+            validate((APIUpdateMonToCephPrimaryStorageMsg) msg);
         }
         
         return msg;
@@ -83,6 +82,14 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
         checkMonUrls(msg.getMonUrls());
     }
     private void validate(APIUpdateMonToCephBackupStorageMsg msg) {
+        if (msg.getHostname() != null && !NetworkUtils.isIpv4Address(msg.getHostname()) && !NetworkUtils.isHostname(msg.getHostname())) {
+            throw new ApiMessageInterceptionException(errf.stringToInvalidArgumentError(
+                    String.format("hostname[%s] is neither an IPv4 address nor a valid hostname", msg.getHostname())
+            ));
+        }
+    }
+
+    private void validate(APIUpdateMonToCephPrimaryStorageMsg msg) {
         if (msg.getHostname() != null && !NetworkUtils.isIpv4Address(msg.getHostname()) && !NetworkUtils.isHostname(msg.getHostname())) {
             throw new ApiMessageInterceptionException(errf.stringToInvalidArgumentError(
                     String.format("hostname[%s] is neither an IPv4 address nor a valid hostname", msg.getHostname())
