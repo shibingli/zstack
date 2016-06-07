@@ -85,6 +85,11 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
                     String.format("hostname[%s] is neither an IPv4 address nor a valid hostname", msg.getHostname())
             ));
         }
+        SimpleQuery<CephBackupStorageMonVO> q = dbf.createQuery(CephBackupStorageMonVO.class);
+        q.select(CephBackupStorageMonVO_.backupStorageUuid);
+        q.add(CephPrimaryStorageMonVO_.uuid, Op.EQ, msg.getMonUuid());
+        String bsUuid = q.findValue();
+        msg.setBackupStorageUuid(bsUuid);
     }
 
     private void validate(APIUpdateCephPrimaryStorageMonMsg msg) {
