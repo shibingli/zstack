@@ -48,7 +48,6 @@ import org.zstack.storage.backup.sftp.GetSftpBackupStorageDownloadCredentialRepl
 import org.zstack.storage.backup.sftp.SftpBackupStorageConstant;
 import org.zstack.storage.ceph.*;
 import org.zstack.storage.ceph.CephMonBase.PingResult;
-import org.zstack.storage.ceph.backup.APIUpdateMonToCephBackupStorageMsg;
 import org.zstack.storage.ceph.backup.CephBackupStorageVO;
 import org.zstack.storage.ceph.backup.CephBackupStorageVO_;
 import org.zstack.storage.primary.PrimaryStorageBase;
@@ -2011,8 +2010,8 @@ public class CephPrimaryStorageBase extends PrimaryStorageBase {
             handle((APIAddMonToCephPrimaryStorageMsg) msg);
         } else if (msg instanceof APIRemoveMonFromCephPrimaryStorageMsg) {
             handle((APIRemoveMonFromCephPrimaryStorageMsg) msg);
-        } else if (msg instanceof APIUpdateMonToCephPrimaryStorageMsg) {
-            handle((APIUpdateMonToCephPrimaryStorageMsg) msg);
+        } else if (msg instanceof APIUpdateCephPrimaryStorageMonMsg) {
+            handle((APIUpdateCephPrimaryStorageMonMsg) msg);
         } else {
             super.handleApiMessage(msg);
         }
@@ -2030,9 +2029,9 @@ public class CephPrimaryStorageBase extends PrimaryStorageBase {
         bus.publish(evt);
     }
 
-    private void handle(APIUpdateMonToCephPrimaryStorageMsg msg) {
+    private void handle(APIUpdateCephPrimaryStorageMonMsg msg) {
         final APIUpdateMonToCephPrimaryStorageEvent evt = new APIUpdateMonToCephPrimaryStorageEvent(msg.getId());
-        CephPrimaryStorageMonVO monvo = dbf.findByUuid(msg.getUuid(), CephPrimaryStorageMonVO.class);
+        CephPrimaryStorageMonVO monvo = dbf.findByUuid(msg.getMonUuid(), CephPrimaryStorageMonVO.class);
         if (msg.getHostname() != null) {
             monvo.setHostname(msg.getHostname());
         }

@@ -8,7 +8,6 @@ import org.zstack.core.errorcode.ErrorFacade;
 import org.zstack.header.apimediator.ApiMessageInterceptionException;
 import org.zstack.header.apimediator.ApiMessageInterceptor;
 import org.zstack.header.errorcode.OperationFailureException;
-import org.zstack.header.exception.CloudRuntimeException;
 import org.zstack.header.message.APIMessage;
 import org.zstack.storage.ceph.backup.*;
 import org.zstack.storage.ceph.primary.*;
@@ -18,7 +17,6 @@ import org.zstack.utils.function.Function;
 import org.zstack.utils.logging.CLogger;
 import org.zstack.utils.network.NetworkUtils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +41,12 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
             validate((APIAddCephPrimaryStorageMsg) msg);
         } else if (msg instanceof APIAddMonToCephBackupStorageMsg) {
             validate((APIAddMonToCephBackupStorageMsg) msg);
-        } else if (msg instanceof APIUpdateMonToCephBackupStorageMsg) {
-            validate((APIUpdateMonToCephBackupStorageMsg) msg);
+        } else if (msg instanceof APIUpdateCephBackupStorageMonMsg) {
+            validate((APIUpdateCephBackupStorageMonMsg) msg);
         } else if (msg instanceof APIAddMonToCephPrimaryStorageMsg) {
             validate((APIAddMonToCephPrimaryStorageMsg) msg);
-        } else if (msg instanceof APIUpdateMonToCephPrimaryStorageMsg) {
-            validate((APIUpdateMonToCephPrimaryStorageMsg) msg);
+        } else if (msg instanceof APIUpdateCephPrimaryStorageMonMsg) {
+            validate((APIUpdateCephPrimaryStorageMonMsg) msg);
         }
         
         return msg;
@@ -81,7 +79,7 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
     private void validate(APIAddMonToCephBackupStorageMsg msg) {
         checkMonUrls(msg.getMonUrls());
     }
-    private void validate(APIUpdateMonToCephBackupStorageMsg msg) {
+    private void validate(APIUpdateCephBackupStorageMonMsg msg) {
         if (msg.getHostname() != null && !NetworkUtils.isIpv4Address(msg.getHostname()) && !NetworkUtils.isHostname(msg.getHostname())) {
             throw new ApiMessageInterceptionException(errf.stringToInvalidArgumentError(
                     String.format("hostname[%s] is neither an IPv4 address nor a valid hostname", msg.getHostname())
@@ -89,12 +87,18 @@ public class CephApiInterceptor implements ApiMessageInterceptor {
         }
     }
 
-    private void validate(APIUpdateMonToCephPrimaryStorageMsg msg) {
+    private void validate(APIUpdateCephPrimaryStorageMonMsg msg) {
         if (msg.getHostname() != null && !NetworkUtils.isIpv4Address(msg.getHostname()) && !NetworkUtils.isHostname(msg.getHostname())) {
             throw new ApiMessageInterceptionException(errf.stringToInvalidArgumentError(
                     String.format("hostname[%s] is neither an IPv4 address nor a valid hostname", msg.getHostname())
             ));
         }
+
+        SimpleQuery<CephPrimaryStorageMonVO> q = dbf.createQuery(CephPrimaryStorageMonVO.class);
+        q.select(CephPrimaryStorageMonVO_.primaryStorageUuid);
+        q.add(CephPrimaryStorageMonVO_.uuid, Op.EQ, msg.getMonUuid());
+        String psUuid = q.findValue();
+        msg.setPrimaryStorageUuid(psUuid);
     }
 
     private void checkMonUrls(List<String> monUrls) {

@@ -2,19 +2,18 @@ package org.zstack.storage.ceph.primary;
 
 import org.zstack.header.message.APIMessage;
 import org.zstack.header.message.APIParam;
+import org.zstack.header.rest.APINoSee;
 import org.zstack.header.storage.primary.PrimaryStorageMessage;
-
-import java.util.List;
 
 /**
  * Created by Mei Lei on 6/6/2016.
  */
-public class APIUpdateMonToCephPrimaryStorageMsg extends APIMessage implements PrimaryStorageMessage {
-    @APIParam(resourceType = CephPrimaryStorageVO.class, emptyString = false)
+public class APIUpdateCephPrimaryStorageMonMsg extends APIMessage implements PrimaryStorageMessage {
+    @APINoSee
     private String primaryStorageUuid;
 
     @APIParam(resourceType = CephPrimaryStorageMonVO.class, emptyString = false)
-    private String uuid;
+    private String monUuid;
 
     @APIParam(maxLength = 255, required = false)
     private String hostname;
@@ -82,11 +81,11 @@ public class APIUpdateMonToCephPrimaryStorageMsg extends APIMessage implements P
         this.monPort = monPort;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getMonUuid() {
+        return monUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setMonUuid(String monUuid) {
+        this.monUuid = monUuid;
     }
 }
