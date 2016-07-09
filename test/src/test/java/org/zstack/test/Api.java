@@ -4106,4 +4106,23 @@ public class Api implements CloudBusEventListener {
         sender.setTimeout(timeout);
         APIDeleteLogEvent evt = sender.send(msg, APIDeleteLogEvent.class);
     }
+
+    public void createScheduler(String volUuid, SessionInventory session) throws ApiSenderException {
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        APICreateVolumeSnapshotSchedulerMsg msg = new APICreateVolumeSnapshotSchedulerMsg();
+        msg.setSession(session == null ? adminSession : session);
+        msg.setSchedulerName("test");
+        msg.setInterval(10);
+        msg.setStartTimeStamp(date.getTime() + 5000);
+        msg.setName("Snapshot-" + volUuid);
+        msg.setDescription("Test snapshot");
+        msg.setVolumeUuid(volUuid);
+        msg.setServiceId(ApiMediatorConstant.SERVICE_ID);
+        ApiSender sender = new ApiSender();
+        sender.setTimeout(timeout);
+        APICreateVolumeSnapshotSchedulerEvent evt = sender.send(msg, APICreateVolumeSnapshotSchedulerEvent.class);
+        logger.debug(MessageCommandRecorder.endAndToString());
+
+    }
 }

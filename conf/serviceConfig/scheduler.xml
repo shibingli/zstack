@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="http://zstack.org/schema/zstack">
+    <id>snapshot.volume</id>
+    <interceptor>SchedulerApiInterceptor</interceptor>
+
+    <message>
+        <name>org.zstack.header.volume.APICreateVolumeSnapshotSchedulerMsg </name>
+    </message>
+
+</service>
