@@ -6,3 +6,19 @@ CREATE TABLE  `zstack`.`ImageStoreBackupStorageVO` (
     `sshPort` int unsigned NOT NULL,
     PRIMARY KEY  (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE  `zstack`.`SchedulerVO` (
+    `uuid` varchar(32) NOT NULL UNIQUE,
+    `schedulerName` varchar(255),
+    `intervalHour` int unsigned NOT NULL,
+    `jobName` varchar(255),
+    `jobGroup` varchar(255),
+    `triggerName` varchar(255),
+    `triggerGroup` varchar(255),
+    `jobClassName` varchar(255),
+    `jobDataMap` varchar(255),
+    `status` varchar(255),
+    `createDate` timestamp DEFAULT CURRENT_TIMESTAMP,
+    `startDate` timestamp NOT NULL,
+    PRIMARY KEY  (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -55,6 +55,8 @@ public class VolumeSnapshotApiInterceptor implements ApiMessageInterceptor {
             validate((APIRevertVolumeFromSnapshotMsg) msg);
         } else if (msg instanceof APIDeleteVolumeSnapshotFromBackupStorageMsg) {
             validate((APIDeleteVolumeSnapshotFromBackupStorageMsg) msg);
+        } else if (msg instanceof APICreateVolumeSnapshotSchedulerMsg) {
+            validate((APICreateVolumeSnapshotSchedulerMsg) msg);
         } else if (msg instanceof APICreateVolumeSnapshotMsg) {
             validate((APICreateVolumeSnapshotMsg) msg);
         } else if (msg instanceof APIGetVolumeSnapshotTreeMsg) {
@@ -124,6 +126,10 @@ public class VolumeSnapshotApiInterceptor implements ApiMessageInterceptor {
                     String.format("volume[uuid:%s] is not in status Ready, current is %s, can't create snapshot", msg.getVolumeUuid(), status)
             ));
         }
+    }
+
+    private void validate(APICreateVolumeSnapshotSchedulerMsg msg) {
+        //meilei to do: add sheduler exist check
     }
 
     private void validate(APIDeleteVolumeSnapshotFromBackupStorageMsg msg) {
