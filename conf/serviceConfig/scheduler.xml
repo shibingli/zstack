@@ -2,7 +2,6 @@
 <service xmlns="http://zstack.org/schema/zstack">
     <id>scheduler</id>
     <interceptor>SchedulerApiInterceptor</interceptor>
-
     <message>
         <name>org.zstack.header.volume.APICreateVolumeSnapshotSchedulerMsg </name>
     </message>
