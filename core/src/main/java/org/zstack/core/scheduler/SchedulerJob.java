@@ -16,7 +16,7 @@ import java.util.Map;
 public interface SchedulerJob {
     Date getStartDate();
     Timestamp getCreateDate();
-    int getInterval();
+    int getSchedulerInterval();
     String getSchedulerName();
     String getJobName();
     String getJobGroup();

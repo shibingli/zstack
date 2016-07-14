@@ -20,7 +20,7 @@ public class SchedulerVO_ {
     public static volatile SingularAttribute<SchedulerVO, String> triggerName;
     public static volatile SingularAttribute<SchedulerVO, String> triggerGroup;
     public static volatile SingularAttribute<SchedulerVO, String> jobClassName;
-    public static volatile SingularAttribute<SchedulerVO, String> jobDataMap;
+    public static volatile SingularAttribute<SchedulerVO, String> jobData;
     public static volatile SingularAttribute<SchedulerVO, EnumType> status;
 
 }

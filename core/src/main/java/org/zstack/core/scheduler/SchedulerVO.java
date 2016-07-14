@@ -35,7 +35,7 @@ public class SchedulerVO {
     @Column
     private String jobClassName;
     @Column
-    private String jobDataMap;
+    private String jobData;
     @Column
     private String status;
 
@@ -118,12 +118,12 @@ public class SchedulerVO {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getJobDataMap() {
-        return jobDataMap;
+    public String getJobData() {
+        return jobData;
     }
 
-    public void setJobDataMap(String jobDataMap) {
-        this.jobDataMap = jobDataMap;
+    public void setJobData(String jobData) {
+        this.jobData = jobData;
     }
     public String getSchedulerName() {
         return schedulerName;

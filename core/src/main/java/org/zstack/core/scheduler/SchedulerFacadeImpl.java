@@ -10,6 +10,8 @@ import org.zstack.core.errorcode.ErrorFacade;
 import org.zstack.utils.gson.JSONObjectUtil;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
@@ -25,14 +27,25 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
     private transient ErrorFacade errf;
     @Autowired
     protected transient DatabaseFacade dbf;
-
     private Scheduler scheduler;
 
     public String getId() {
         return bus.makeLocalServiceId(SchedulerConstant.SERVICE_ID);
     }
+
+
     public boolean start() {
-        // need to load all scheduler in db and run
+        List<SchedulerVO> schedulerRecords = dbf.listAll(SchedulerVO.class);
+        Iterator<SchedulerVO> schedulerRecordsIterator = schedulerRecords.iterator();
+        while (schedulerRecordsIterator.hasNext()) {
+            SchedulerVO schedulerRecord = schedulerRecordsIterator.next();
+            try {
+                SchedulerJob rebootJob = (SchedulerJob) JSONObjectUtil.toObject(schedulerRecord.getJobData(), Class.forName(schedulerRecord.getJobClassName()));
+                schedulerRunner(rebootJob, false);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         return true;
     }
@@ -42,22 +55,28 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
     }
 
     public void schedulerRunner(SchedulerJob schedulerJob) {
+        schedulerRunner(schedulerJob, true);
+    }
+
+    private void schedulerRunner(SchedulerJob schedulerJob, boolean saveDB) {
         SchedulerVO vo = new SchedulerVO();
         Timestamp create = new Timestamp(System.currentTimeMillis());
         Timestamp start = new Timestamp(schedulerJob.getStartDate().getTime());
-        vo.setUuid(Platform.getUuid());
-        vo.setSchedulerName(schedulerJob.getSchedulerName());
-        vo.setStartDate(start);
-        vo.setSchedulerInterval(schedulerJob.getInterval());
-        vo.setCreateDate(create);
-        vo.setJobName(schedulerJob.getJobName());
-        vo.setJobGroup(schedulerJob.getJobGroup());
-        vo.setTriggerName(schedulerJob.getTriggerName());
-        vo.setTriggerGroup(schedulerJob.getTriggerGroup());
-        vo.setJobClassName(schedulerJob.getClass().getName());
-
         String jobData = JSONObjectUtil.toJsonString(schedulerJob);
         String jobClassName = schedulerJob.getClass().getName();
+        if (saveDB) {
+            vo.setUuid(Platform.getUuid());
+            vo.setSchedulerName(schedulerJob.getSchedulerName());
+            vo.setStartDate(start);
+            vo.setSchedulerInterval(schedulerJob.getSchedulerInterval());
+            vo.setCreateDate(create);
+            vo.setJobName(schedulerJob.getJobName());
+            vo.setJobGroup(schedulerJob.getJobGroup());
+            vo.setTriggerName(schedulerJob.getTriggerName());
+            vo.setTriggerGroup(schedulerJob.getTriggerGroup());
+            vo.setJobClassName(jobClassName);
+            vo.setJobData(jobData);
+        }
 
         try {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
@@ -73,7 +92,7 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
                     .withIdentity(schedulerJob.getTriggerName(), schedulerJob.getTriggerGroup())
                     .startAt(schedulerJob.getStartDate())
                     .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(schedulerJob.getInterval())
+                            .withIntervalInSeconds(schedulerJob.getSchedulerInterval())
                             .repeatForever())
                     .build();
 
@@ -82,7 +101,9 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
             se.printStackTrace();
         }
 
-        vo.setStatus("enabled");
-        dbf.persist(vo);
+        if (saveDB) {
+            vo.setStatus("enabled");
+            dbf.persist(vo);
+        }
     }
 }

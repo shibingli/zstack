@@ -91,7 +91,7 @@ public class CreateVolumeSnapshotJob implements SchedulerJob {
     }
 
     @Override
-    public int getInterval() {
+    public int getSchedulerInterval() {
         return interval;
     }
 
