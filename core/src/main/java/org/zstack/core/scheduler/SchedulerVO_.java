@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import java.sql.Timestamp;
 
 /**
- * Created by root on 7/13/16.
+ * Created by Mei Lei on 7/13/16.
  */
 @StaticMetamodel(SchedulerVO.class)
 public class SchedulerVO_ {

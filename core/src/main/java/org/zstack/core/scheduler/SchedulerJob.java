@@ -7,12 +7,13 @@ import org.quartz.JobExecutionException;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by root on 7/11/16.
+ * Created by Mei Lei on 7/11/16.
  */
-public interface SchedulerJob extends Job {
+public interface SchedulerJob {
     Date getStartDate();
     Timestamp getCreateDate();
     int getInterval();
@@ -21,4 +22,5 @@ public interface SchedulerJob extends Job {
     String getJobGroup();
     String getTriggerName();
     String getTriggerGroup();
+    void run();
 }

@@ -1,5 +1,6 @@
 package org.zstack.storage.snapshot;
 
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowire;
@@ -22,14 +23,14 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by root on 7/11/16.
+ * Created by Mei Lei on 7/11/16.
  */
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class CreateVolumeSnapshotJob implements SchedulerJob {
     @Autowired
     private transient CloudBus bus;
     @Autowired
-    private AccountManager acntMgr;
+    private transient AccountManager acntMgr;
 
     private Date startDate;
     private int interval;
@@ -39,9 +40,9 @@ public class CreateVolumeSnapshotJob implements SchedulerJob {
     private String triggerGroup;
     private String triggerName;
     private Timestamp createDate;
-    static  private String volumeUuid;
-    static  private String name;
-    static  private String description;
+    private String volumeUuid;
+    private String name;
+    private String description;
 
     @Override
     public Timestamp getCreateDate() {
@@ -57,9 +58,8 @@ public class CreateVolumeSnapshotJob implements SchedulerJob {
 
     }
 
-    public void execute(JobExecutionContext context)
-            throws JobExecutionException {
-        //JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+    public void run() {
+
         CreateVolumeSnapshotMsg cmsg = new CreateVolumeSnapshotMsg();
         cmsg.setName(getName());
         cmsg.setDescription(getDescription());

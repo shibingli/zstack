@@ -385,15 +385,8 @@ public class VolumeSnapshotManagerImpl extends AbstractService implements Volume
     }
 
     private void handle(APICreateVolumeSnapshotSchedulerMsg msg) {
-        //1. job = new CreateVolumeSnapshotJob();
-        //2. job.xxx = msg.xxx
-        //3.
-        //schedulerFacade.schedulerRunner(job);
-        //4. bus.publish(event);
-
         APICreateVolumeSnapshotSchedulerEvent evt = new APICreateVolumeSnapshotSchedulerEvent(msg.getId());
         CreateVolumeSnapshotJob job = new CreateVolumeSnapshotJob();
-        //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date startDate = new Date(msg.getStartTimeStamp());
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
