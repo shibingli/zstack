@@ -18,5 +18,11 @@
         </zstack:plugin>
     </bean>
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+    <bean id="SchedulerApiInterceptor" class="org.zstack.core.scheduler.SchedulerApiInterceptor.java">
+        <zstack:plugin>
+            <zstack:extension interface="org.zstack.header.apimediator.ApiMessageInterceptor" />
+        </zstack:plugin>
+    </bean>
+
 
 </beans>
