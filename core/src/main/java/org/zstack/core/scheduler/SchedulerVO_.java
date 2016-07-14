@@ -13,7 +13,7 @@ public class SchedulerVO_ {
     public static volatile SingularAttribute<SchedulerVO, String> uuid;
     public static volatile SingularAttribute<SchedulerVO, String> schedulerName;
     public static volatile SingularAttribute<SchedulerVO, Timestamp> startDate;
-    public static volatile SingularAttribute<SchedulerVO, Integer> interval;
+    public static volatile SingularAttribute<SchedulerVO, Integer> schedulerInterval;
     public static volatile SingularAttribute<SchedulerVO, Timestamp> createDate;
     public static volatile SingularAttribute<SchedulerVO, String> jobName;
     public static volatile SingularAttribute<SchedulerVO, String> jobGroup;

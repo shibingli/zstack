@@ -33,6 +33,7 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
     }
     public boolean start() {
         // need to load all scheduler in db and run
+
         return true;
     }
 
@@ -47,7 +48,7 @@ public class SchedulerFacadeImpl implements SchedulerFacade {
         vo.setUuid(Platform.getUuid());
         vo.setSchedulerName(schedulerJob.getSchedulerName());
         vo.setStartDate(start);
-        vo.setIntervalHour(schedulerJob.getInterval());
+        vo.setSchedulerInterval(schedulerJob.getInterval());
         vo.setCreateDate(create);
         vo.setJobName(schedulerJob.getJobName());
         vo.setJobGroup(schedulerJob.getJobGroup());

@@ -20,7 +20,7 @@ public class SchedulerVO {
     @Column
     private Timestamp startDate;
     @Column
-    private int intervalHour;
+    private int schedulerInterval;
     @Column
     private String jobName;
     @Column
@@ -55,12 +55,12 @@ public class SchedulerVO {
         this.startDate = startDate;
     }
 
-    public int getIntervalHour() {
-        return intervalHour;
+    public int getSchedulerInterval() {
+        return schedulerInterval;
     }
 
-    public void setIntervalHour(int intervalHour) {
-        this.intervalHour = intervalHour;
+    public void setSchedulerInterval(int schedulerInterval) {
+        this.schedulerInterval = schedulerInterval;
     }
 
     public Timestamp getCreateDate() {
