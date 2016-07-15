@@ -17,6 +17,8 @@ import org.zstack.core.config.*;
 import org.zstack.core.db.DatabaseFacade;
 import org.zstack.core.db.SimpleQuery;
 import org.zstack.core.db.SimpleQuery.Op;
+import org.zstack.core.scheduler.APIDeleteSchedulerEvent;
+import org.zstack.core.scheduler.APIDeleteSchedulerMsg;
 import org.zstack.ha.APIDeleteVmInstanceHaLevelMsg;
 import org.zstack.ha.APISetVmInstanceHaLevelEvent;
 import org.zstack.ha.APISetVmInstanceHaLevelMsg;
@@ -4123,6 +4125,15 @@ public class Api implements CloudBusEventListener {
         sender.setTimeout(timeout);
         APICreateVolumeSnapshotSchedulerEvent evt = sender.send(msg, APICreateVolumeSnapshotSchedulerEvent.class);
         logger.debug(MessageCommandRecorder.endAndToString());
-
+    }
+    public void deleteScheduler(String uuid, SessionInventory session) throws ApiSenderException {
+        APIDeleteSchedulerMsg msg = new APIDeleteSchedulerMsg();
+        msg.setSession(session == null ? adminSession : session);
+        msg.setUuid(uuid);
+        msg.setServiceId(ApiMediatorConstant.SERVICE_ID);
+        ApiSender sender = new ApiSender();
+        sender.setTimeout(timeout);
+        APIDeleteSchedulerEvent evt = sender.send(msg, APIDeleteSchedulerEvent.class);
+        logger.debug(MessageCommandRecorder.endAndToString());
     }
 }

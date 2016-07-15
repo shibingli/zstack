@@ -17,7 +17,7 @@ CREATE TABLE  `zstack`.`SchedulerVO` (
     `triggerName` varchar(255),
     `triggerGroup` varchar(255),
     `jobClassName` varchar(255),
-    `jobData` varchar(255),
+    `jobData` varchar(65535),
     `status` varchar(255),
     `createDate` timestamp DEFAULT CURRENT_TIMESTAMP,
     `startDate` timestamp NOT NULL,

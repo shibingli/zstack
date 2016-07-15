@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <service xmlns="http://zstack.org/schema/zstack">
-    <id>scheduler</id>
+    <id>core.scheduler</id>
     <interceptor>SchedulerApiInterceptor</interceptor>
     <message>
-        <name>org.zstack.header.volume.APICreateVolumeSnapshotSchedulerMsg </name>
+      <name>org.zstack.core.scheduler.APIDeleteSchedulerMsg</name>
     </message>
 
 </service>

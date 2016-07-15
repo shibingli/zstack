@@ -129,7 +129,15 @@ public class VolumeSnapshotApiInterceptor implements ApiMessageInterceptor {
     }
 
     private void validate(APICreateVolumeSnapshotSchedulerMsg msg) {
-        //meilei to do: add sheduler exist check
+        SimpleQuery<VolumeVO> q = dbf.createQuery(VolumeVO.class);
+        q.select(VolumeVO_.status);
+        q.add(VolumeVO_.uuid, Op.EQ, msg.getVolumeUuid());
+        VolumeStatus status = q.findValue();
+        if (status != VolumeStatus.Ready) {
+            throw new ApiMessageInterceptionException(errf.instantiateErrorCode(SysErrors.OPERATION_ERROR,
+                    String.format("volume[uuid:%s] is not in status Ready, current is %s, can't create snapshot", msg.getVolumeUuid(), status)
+            ));
+        }
     }
 
     private void validate(APIDeleteVolumeSnapshotFromBackupStorageMsg msg) {

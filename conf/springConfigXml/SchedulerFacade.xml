@@ -15,6 +15,7 @@
     <bean id="SchedulerFacadeImpl" class="org.zstack.core.scheduler.SchedulerFacadeImpl">
         <zstack:plugin>
             <zstack:extension interface="org.zstack.header.Component" />
+            <zstack:extension interface="org.zstack.header.Service" />
         </zstack:plugin>
     </bean>
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
