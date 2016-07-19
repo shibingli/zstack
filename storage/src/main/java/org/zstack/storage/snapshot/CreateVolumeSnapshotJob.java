@@ -34,6 +34,9 @@ public class CreateVolumeSnapshotJob implements SchedulerJob {
 
     private Date startDate;
     private int interval;
+    private int repeat;
+    private String type;
+    private String cron;
     private String schedulerName;
     private String jobName;
     private String jobGroup;
@@ -171,5 +174,32 @@ public class CreateVolumeSnapshotJob implements SchedulerJob {
         this.volumeUuid = volumeUuid;
     }
 
+    public String getCron() {
+        return cron;
+    }
 
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+    @Override
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
 }

@@ -10,9 +10,13 @@ public class APICreateVolumeSnapshotSchedulerMsg extends APICreateMessage implem
     @APIParam
     private String schedulerName;
     @APIParam
+    private String type;
+    @APIParam (required = false)
     private int interval;
-    @APIParam
+    @APIParam (required = false)
     private long startTimeStamp;
+    @APIParam (required = false)
+    private String cron;
 
     private String jobName;
     private String jobGroup;
@@ -114,5 +118,21 @@ public class APICreateVolumeSnapshotSchedulerMsg extends APICreateMessage implem
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCron() {
+        return cron;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron;
     }
 }

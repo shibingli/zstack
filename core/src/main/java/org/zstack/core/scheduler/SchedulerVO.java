@@ -16,11 +16,13 @@ public class SchedulerVO {
     @Column
     private String schedulerName;
     @Column
-    private Timestamp createDate;
-    @Column
-    private Timestamp startDate;
+    private String schedulerType;
     @Column
     private int schedulerInterval;
+    @Column
+    private int repeatCount;
+    @Column
+    private String cronScheduler;
     @Column
     private String jobName;
     @Column
@@ -29,6 +31,12 @@ public class SchedulerVO {
     private String triggerName;
     @Column
     private String triggerGroup;
+    @Column
+    private Timestamp createDate;
+    @Column
+    private Timestamp startDate;
+    @Column
+    private Timestamp lastOpDate;
     /**
      * @desc jobClassName define the job
      */
@@ -131,5 +139,37 @@ public class SchedulerVO {
 
     public void setSchedulerName(String schedulerName) {
         this.schedulerName = schedulerName;
+    }
+
+    public String getSchedulerType() {
+        return schedulerType;
+    }
+
+    public void setSchedulerType(String schedulerType) {
+        this.schedulerType = schedulerType;
+    }
+
+    public int getRepeatCount() {
+        return repeatCount;
+    }
+
+    public void setRepeatCount(int repeatCount) {
+        this.repeatCount = repeatCount;
+    }
+
+    public String getCronScheduler() {
+        return cronScheduler;
+    }
+
+    public void setCronScheduler(String cronScheduler) {
+        this.cronScheduler = cronScheduler;
+    }
+
+    public Timestamp getLastOpDate() {
+        return lastOpDate;
+    }
+
+    public void setLastOpDate(Timestamp lastOpDate) {
+        this.lastOpDate = lastOpDate;
     }
 }

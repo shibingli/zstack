@@ -66,8 +66,11 @@ public class TestSchedulerDelete {
         Assert.assertEquals(2,counter);
         SchedulerVO firstRecord = dbf.listAll(SchedulerVO.class).get(0);
         api.deleteScheduler(firstRecord.getUuid(), session);
+        TimeUnit.SECONDS.sleep(15);
         long counter2 = dbf.count(SchedulerVO.class);
+        long counter3 = dbf.count(VolumeSnapshotVO.class);
         Assert.assertEquals(0, counter2);
+        Assert.assertEquals(0, counter3);
 
     }
 

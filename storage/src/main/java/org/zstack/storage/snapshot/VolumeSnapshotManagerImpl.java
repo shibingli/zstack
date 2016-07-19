@@ -392,9 +392,17 @@ public class VolumeSnapshotManagerImpl extends AbstractService implements Volume
         Date startDate = new Date(msg.getStartTimeStamp());
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
-        job.setStartDate(startDate);
-        job.setInterval(msg.getInterval());
         job.setSchedulerName(msg.getSchedulerName());
+        job.setType(msg.getType());
+        if ( msg.getCron() != null && ! msg.getCron().isEmpty()) {
+           job.setCron(msg.getCron());
+        }
+        if ( msg.getStartTimeStamp() != 0) {
+            job.setStartDate(startDate);
+        }
+        if ( msg.getInterval() != 0) {
+            job.setInterval(msg.getInterval());
+        }
         if(msg.getJobName() != null && !msg.getJobName().isEmpty()) {
             job.setJobName(msg.getJobName());
         }

@@ -17,10 +17,13 @@ public interface SchedulerJob {
     Date getStartDate();
     Timestamp getCreateDate();
     int getSchedulerInterval();
+    int getRepeat();
     String getSchedulerName();
     String getJobName();
     String getJobGroup();
     String getTriggerName();
     String getTriggerGroup();
+    String getType();
+    String getCron();
     void run();
 }

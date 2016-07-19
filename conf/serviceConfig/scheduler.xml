@@ -6,4 +6,12 @@
       <name>org.zstack.core.scheduler.APIDeleteSchedulerMsg</name>
     </message>
 
+    <message>
+        <name>org.zstack.core.scheduler.APIQuerySchedulerMsg</name>
+    </message>
+
+    <message>
+        <name>org.zstack.core.scheduler.APIUpdateSchedulerMsg</name>
+    </message>
+
 </service>

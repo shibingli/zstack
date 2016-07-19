@@ -19,6 +19,8 @@ import org.zstack.core.db.SimpleQuery;
 import org.zstack.core.db.SimpleQuery.Op;
 import org.zstack.core.scheduler.APIDeleteSchedulerEvent;
 import org.zstack.core.scheduler.APIDeleteSchedulerMsg;
+import org.zstack.core.scheduler.APIUpdateSchedulerEvent;
+import org.zstack.core.scheduler.APIUpdateSchedulerMsg;
 import org.zstack.ha.APIDeleteVmInstanceHaLevelMsg;
 import org.zstack.ha.APISetVmInstanceHaLevelEvent;
 import org.zstack.ha.APISetVmInstanceHaLevelMsg;
@@ -4116,6 +4118,7 @@ public class Api implements CloudBusEventListener {
         msg.setSession(session == null ? adminSession : session);
         msg.setSchedulerName("test");
         msg.setInterval(10);
+        msg.setType("simple");
         msg.setStartTimeStamp(date.getTime() + 5000);
         msg.setName("Snapshot-" + volUuid);
         msg.setDescription("Test snapshot");
@@ -4124,6 +4127,37 @@ public class Api implements CloudBusEventListener {
         ApiSender sender = new ApiSender();
         sender.setTimeout(timeout);
         APICreateVolumeSnapshotSchedulerEvent evt = sender.send(msg, APICreateVolumeSnapshotSchedulerEvent.class);
+        logger.debug(MessageCommandRecorder.endAndToString());
+    }
+
+    public void createCronScheduler(String volUuid, SessionInventory session) throws ApiSenderException {
+        APICreateVolumeSnapshotSchedulerMsg msg = new APICreateVolumeSnapshotSchedulerMsg();
+        msg.setSession(session == null ? adminSession : session);
+        msg.setSchedulerName("testCron");
+        // fire every 10 seconds
+        msg.setCron("0/10 * * * * ?");
+        msg.setType("cron");
+        msg.setName("Snapshot-" + volUuid);
+        msg.setDescription("Test snapshot");
+        msg.setVolumeUuid(volUuid);
+        msg.setServiceId(ApiMediatorConstant.SERVICE_ID);
+        ApiSender sender = new ApiSender();
+        sender.setTimeout(timeout);
+        APICreateVolumeSnapshotSchedulerEvent evt = sender.send(msg, APICreateVolumeSnapshotSchedulerEvent.class);
+        logger.debug(MessageCommandRecorder.endAndToString());
+    }
+
+    public void updateScheduler(String uuid, SessionInventory session) throws ApiSenderException {
+        APIUpdateSchedulerMsg msg = new APIUpdateSchedulerMsg();
+        msg.setSchedulerType("simple");
+        msg.setSchedulerName("update-test");
+        msg.setSchedulerInterval(5);
+        msg.setSession(session == null ? adminSession : session);
+        msg.setUuid(uuid);
+        msg.setServiceId(ApiMediatorConstant.SERVICE_ID);
+        ApiSender sender = new ApiSender();
+        sender.setTimeout(timeout);
+        APIUpdateSchedulerEvent evt = sender.send(msg, APIUpdateSchedulerEvent.class);
         logger.debug(MessageCommandRecorder.endAndToString());
     }
     public void deleteScheduler(String uuid, SessionInventory session) throws ApiSenderException {
