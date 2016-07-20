@@ -8,6 +8,7 @@
 
     <message>
         <name>org.zstack.core.scheduler.APIQuerySchedulerMsg</name>
+        <serviceId>query</serviceId>
     </message>
 
     <message>

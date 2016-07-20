@@ -36,9 +36,11 @@ public class SchedulerFacadeImpl extends AbstractService implements SchedulerFac
     private transient ErrorFacade errf;
     @Autowired
     protected transient DatabaseFacade dbf;
+
     private Scheduler scheduler;
 
     protected SchedulerVO self;
+
 
     protected SchedulerInventory getInventory() {
         return SchedulerInventory.valueOf(self);
