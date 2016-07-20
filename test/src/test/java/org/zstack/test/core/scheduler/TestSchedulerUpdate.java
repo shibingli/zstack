@@ -65,11 +65,10 @@ public class TestSchedulerUpdate {
         long record = dbf.count(VolumeSnapshotVO.class);
         Assert.assertEquals(1,record);
         SchedulerVO firstRecord = dbf.listAll(SchedulerVO.class).get(0);
-        //updateScheduler cost 15s
         api.updateScheduler(firstRecord.getUuid(), session);
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.SECONDS.sleep(10);
         long record2 = dbf.count(VolumeSnapshotVO.class);
-        Assert.assertEquals(8, record2);
+        Assert.assertEquals(4, record2);
 
     }
 }
