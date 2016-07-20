@@ -36,9 +36,6 @@ public class SchedulerApiInterceptor implements ApiMessageInterceptor {
         if (msg instanceof APIUpdateSchedulerMsg) {
             validate((APIUpdateSchedulerMsg) msg);
         }
-        if (msg instanceof APIQuerySchedulerMsg) {
-            validate((APIQuerySchedulerMsg) msg);
-        }
         return msg;
     }
 
@@ -57,6 +54,4 @@ public class SchedulerApiInterceptor implements ApiMessageInterceptor {
         }
     }
 
-    private void validate(APIQuerySchedulerMsg msg) {
-    }
 }

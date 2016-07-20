@@ -43,7 +43,6 @@ public class TestSchedulerUpdate {
         deployer = new Deployer("deployerXml/kvm/TestCreateVmOnKvm.xml", con);
         deployer.addSpringConfig("KVMRelated.xml");
         deployer.addSpringConfig("SchedulerFacade.xml");
-        deployer.addSpringConfig("imagestore.xml");
         deployer.build();
         api = deployer.getApi();
         loader = deployer.getComponentLoader();
