@@ -88,6 +88,7 @@ public class SchedulerFacadeImpl extends AbstractService implements SchedulerFac
 
     protected SchedulerVO updateScheduler(APIUpdateSchedulerMsg msg) {
         boolean update = false;
+        boolean reSchedule = false;
         self = dbf.findByUuid(msg.getUuid(), SchedulerVO.class);
         SimpleQuery<SchedulerVO> q = dbf.createQuery(SchedulerVO.class);
         q.select(SchedulerVO_.triggerName);
@@ -103,12 +104,15 @@ public class SchedulerFacadeImpl extends AbstractService implements SchedulerFac
         if (msg.getSchedulerType().equals("simple")) {
             if (msg.getSchedulerInterval() != 0 ) {
                 self.setSchedulerInterval(msg.getSchedulerInterval());
+                reSchedule = true;
             }
             if (msg.getRepeatCount() != 0 ) {
                 self.setRepeatCount(msg.getRepeatCount());
+                reSchedule = true;
             }
             if ( msg.getStartTimeStamp() != 0 ) {
                 self.setStartDate(new Timestamp(msg.getStartTimeStamp()));
+                reSchedule = true;
             }
             Trigger oldTrigger = null;
             try {
@@ -118,7 +122,7 @@ public class SchedulerFacadeImpl extends AbstractService implements SchedulerFac
             }
             TriggerBuilder tb = oldTrigger != null ? oldTrigger.getTriggerBuilder() : null;
             Trigger newTrigger = null;
-            if (tb != null) {
+            if (tb != null && reSchedule) {
                 if ( msg.getRepeatCount() != 0 ) {
                     newTrigger = tb.withSchedule(simpleSchedule()
                             .withIntervalInSeconds(msg.getSchedulerInterval())
@@ -127,7 +131,8 @@ public class SchedulerFacadeImpl extends AbstractService implements SchedulerFac
                 }
                 else {
                     newTrigger = tb.withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(msg.getSchedulerInterval()))
+                            .withIntervalInSeconds(msg.getSchedulerInterval())
+                            .repeatForever())
                             .build();
                 }
             }
