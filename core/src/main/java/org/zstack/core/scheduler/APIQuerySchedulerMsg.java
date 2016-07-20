@@ -7,6 +7,6 @@ import org.zstack.header.volume.APIQueryVolumeReply;
 /**
  * Created by root on 7/18/16.
  */
-@AutoQuery(replyClass = APIQuerySchedulerReply.class, inventoryClass = SchedulerVO.class)
+@AutoQuery(replyClass = APIQuerySchedulerReply.class, inventoryClass = SchedulerInventory.class)
 public class APIQuerySchedulerMsg extends APIQueryMessage {
 }

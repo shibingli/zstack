@@ -26,16 +26,27 @@ public class SchedulerApiInterceptor implements ApiMessageInterceptor {
             bus.makeTargetServiceIdByResourceUuid(msg, SchedulerConstant.SERVICE_ID, schedmsg.getSchedulerUuid());
         }
     }
+    // meilei: to do strict check for api
     @Override
     public APIMessage intercept(APIMessage msg) throws ApiMessageInterceptionException {
         setServiceId(msg);
         if (msg instanceof APIDeleteSchedulerMsg) {
             validate((APIDeleteSchedulerMsg) msg);
         }
+        if (msg instanceof APIUpdateSchedulerMsg) {
+            validate((APIUpdateSchedulerMsg) msg);
+        }
         return msg;
     }
 
     private void validate(APIDeleteSchedulerMsg msg) {
+        if (!dbf.isExist(msg.getUuid(), SchedulerVO.class)) {
+            APIDeleteSchedulerEvent evt = new APIDeleteSchedulerEvent(msg.getId());
+            bus.publish(evt);
+            throw new StopRoutingException();
+        }
+    }
+    private void validate(APIUpdateSchedulerMsg msg) {
         if (!dbf.isExist(msg.getUuid(), SchedulerVO.class)) {
             APIDeleteSchedulerEvent evt = new APIDeleteSchedulerEvent(msg.getId());
             bus.publish(evt);
