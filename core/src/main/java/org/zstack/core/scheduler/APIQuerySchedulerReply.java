@@ -15,5 +15,6 @@ public class APIQuerySchedulerReply extends APIQueryReply {
     }
 
     public void setInventories(List<SchedulerInventory> inventories) {
+        this.inventories = inventories;
     }
 }

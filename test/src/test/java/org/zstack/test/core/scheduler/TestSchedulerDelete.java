@@ -69,7 +69,8 @@ public class TestSchedulerDelete {
         long counter2 = dbf.count(SchedulerVO.class);
         long counter3 = dbf.count(VolumeSnapshotVO.class);
         Assert.assertEquals(0, counter2);
-        Assert.assertEquals(0, counter3);
+        TimeUnit.SECONDS.sleep(15);
+        Assert.assertEquals(2, counter3);
 
     }
 

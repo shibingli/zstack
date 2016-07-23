@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by root on 7/18/16.
  */
-@Inventory(mappingVOClass = SchedulerVO.class)
+@Inventory(mappingVOClass = SchedulerVO.class, collectionValueOfMethod="valueOf1")
 @PythonClassInventory
 public class SchedulerInventory implements Serializable {
     private String uuid;
@@ -21,10 +21,6 @@ public class SchedulerInventory implements Serializable {
     private int schedulerInterval;
     private int repeatCount;
     private String cronScheduler;
-    private String jobName;
-    private String jobGroup;
-    private String triggerName;
-    private String triggerGroup;
     private Timestamp createDate;
     private Timestamp startDate;
     private Timestamp lastOpDate;
@@ -34,22 +30,39 @@ public class SchedulerInventory implements Serializable {
     private String jobClassName;
     private String jobData;
     private String status;
+
     protected SchedulerInventory(SchedulerVO vo) {
-        this.setSchedulerName(vo.getSchedulerName());
-        this.setSchedulerType(vo.getSchedulerType());
-        if (vo.getSchedulerType().equals("simple")) {
-            this.setSchedulerInterval(vo.getSchedulerInterval());
-            if (vo.getRepeatCount() != 0) {
-                this.setRepeatCount(vo.getRepeatCount());
-            }
-        }
-        else if (vo.getSchedulerType().equals("cron")) {
-            this.setCronScheduler(vo.getCronScheduler());
-        }
-        this.setCreateDate(vo.getCreateDate());
-        this.setStartDate(vo.getStartDate());
-        this.setLastOpDate(vo.getLastOpDate());
-        this.setStatus(vo.getStatus());
+//        uuid = vo.getUuid();
+//
+//        schedulerName = vo.getSchedulerName();
+//        this.setSchedulerType(vo.getSchedulerType());
+//        if (vo.getSchedulerType().equals("simple")) {
+//            schedulerInterval = vo.getSchedulerInterval();
+//            startDate = vo.getStartDate();
+//            if (vo.getRepeatCount() != 0) {
+//                repeatCount = vo.getRepeatCount();
+//            }
+//        }
+//        else if (vo.getSchedulerType().equals("cron")) {
+//            cronScheduler = vo.getCronScheduler();
+//        }
+//        createDate = vo.getCreateDate();
+//        lastOpDate = vo.getLastOpDate();
+//        if ( vo.getStatus() != null) {
+//            status = vo.getStatus();
+//        }
+        uuid = vo.getUuid();
+        schedulerName = vo.getSchedulerName();
+        schedulerType = vo.getSchedulerType();
+        schedulerInterval = vo.getSchedulerInterval();
+        repeatCount = vo.getRepeatCount();
+        cronScheduler = vo.getCronScheduler();
+        createDate = vo.getCreateDate();
+        startDate = vo.getStartDate();
+        lastOpDate = vo.getLastOpDate();
+        jobClassName = vo.getJobClassName();
+        jobData = vo.getJobData();
+        status = vo.getStatus();
     }
     public SchedulerInventory() {
 
@@ -58,7 +71,7 @@ public class SchedulerInventory implements Serializable {
         return new SchedulerInventory(vo);
     }
 
-    public static List<SchedulerInventory> valueOf(Collection<SchedulerVO> vos) {
+    public static List<SchedulerInventory> valueOf1(Collection<SchedulerVO> vos) {
         List<SchedulerInventory> invs = new ArrayList<SchedulerInventory>(vos.size());
         for (SchedulerVO vo : vos) {
             invs.add(SchedulerInventory.valueOf(vo));
@@ -112,38 +125,6 @@ public class SchedulerInventory implements Serializable {
 
     public void setCronScheduler(String cronScheduler) {
         this.cronScheduler = cronScheduler;
-    }
-
-    public String getJobName() {
-        return jobName;
-    }
-
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
-
-    public String getJobGroup() {
-        return jobGroup;
-    }
-
-    public void setJobGroup(String jobGroup) {
-        this.jobGroup = jobGroup;
-    }
-
-    public String getTriggerName() {
-        return triggerName;
-    }
-
-    public void setTriggerName(String triggerName) {
-        this.triggerName = triggerName;
-    }
-
-    public String getTriggerGroup() {
-        return triggerGroup;
-    }
-
-    public void setTriggerGroup(String triggerGroup) {
-        this.triggerGroup = triggerGroup;
     }
 
     public Timestamp getCreateDate() {

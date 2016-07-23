@@ -2,6 +2,7 @@ package org.zstack.header.volume;
 
 import org.zstack.header.message.APICreateMessage;
 import org.zstack.header.message.APIParam;
+import org.zstack.header.rest.APINoSee;
 
 /**
  * Created by root on 7/11/16.
@@ -18,9 +19,13 @@ public class APICreateVolumeSnapshotSchedulerMsg extends APICreateMessage implem
     @APIParam (required = false)
     private String cron;
 
+    @APINoSee
     private String jobName;
+    @APINoSee
     private String jobGroup;
+    @APINoSee
     private String triggerGroup;
+    @APINoSee
     private String triggerName;
     /**
      * @desc volume uuid. See :ref:`VolumeInventory`
